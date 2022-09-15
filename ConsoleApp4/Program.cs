@@ -66,6 +66,9 @@ do
             int id2 = Int32.Parse(Console.ReadLine());
             BusinessLogic.Logic.ReadOrder(id2);
             break;
+        case 8:
+            BusinessLogic.Logic.getDayReport();
+            break;
     }
 
 } while (userInput != -1);

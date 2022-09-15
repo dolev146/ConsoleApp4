@@ -53,6 +53,53 @@ namespace BusinessLogic
             MySqlAccess.MySqlAccess.createTables();
         }
 
+
+
+        public static void getDayReport()
+        {
+            Console.WriteLine("Please enter the date you want to get the stats from (yyyy-mm-dd):"); 
+            string date = Console.ReadLine();
+            while (!DateTime.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date1))
+            {
+                Console.WriteLine("Please enter the date you want to get the stats from (yyyy-mm-dd):");
+                date = Console.ReadLine();
+            }
+            string connStr = "server=localhost;user=root;port=3306;password=";
+            MySqlConnection conn = new MySqlConnection(connStr);
+            Console.WriteLine("Connecting to MySQL...");
+            conn.Open();
+            string sql = "SELECT AVG(total_price) FROM `ice_cream_store`.`sales` WHERE  DATE(datetime)= '" + date + "'";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                Console.WriteLine("The average price of the sales on " + date + " is: " + rdr[0]);
+            }
+            rdr.Close();
+            sql = "SELECT SUM(total_price) FROM `ice_cream_store`.`sales` WHERE DATE(datetime) = '" + date + "'";
+            cmd = new MySqlCommand(sql, conn);
+            rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                Console.WriteLine("The total price of the sales on " + date + " is: " + rdr[0]);
+            }
+            rdr.Close();
+            sql = "SELECT COUNT(*) FROM `ice_cream_store`.`sales` WHERE DATE(datetime)= '" + date + "'";
+            cmd = new MySqlCommand(sql, conn);
+            rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                Console.WriteLine("The number of sales on " + date + " is: " + rdr[0]);
+            }
+            rdr.Close();
+
+            conn.Close();
+
+
+
+
+        }
+
         public static void ReadOrder(int order_num)
         {
             string connStr = "server=localhost;user=root;port=3306;password=";
