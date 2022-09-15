@@ -49,6 +49,61 @@ namespace BusinessLogic
         {
             MySqlAccess.MySqlAccess.createTables();
         }
+
+        public static void makeOrder()
+        {
+            Console.WriteLine("please choose a Receptacle ");
+          
+            for (int i = 0; i < receptacles_name.Length; i++)
+            {
+                Console.WriteLine(i + " " + receptacles_name[i]);
+            }
+            int receptacle = int.Parse(Console.ReadLine());
+
+
+
+
+            Console.WriteLine("How many balls of ice cream  ");
+            int balls ;
+            if (receptacle == 0)
+            {
+                for (int i = 1; i <= 3; i++)
+                {
+                    Console.WriteLine(i + " " + "balls" );
+                }
+                balls = int.Parse(Console.ReadLine());
+            }
+            else if (receptacle == 1)
+            {
+                for (int i = 1; i <= 4; i++)
+                {
+                    Console.WriteLine(i + " " + "balls");
+                }
+                balls = int.Parse(Console.ReadLine());
+            }
+            else if (receptacle == 2)
+            {
+                for (int i = 1; i <= 7; i++)
+                {
+                    Console.WriteLine(i + " " + "balls");
+                }
+                balls = int.Parse(Console.ReadLine());
+            }
+            else
+            {
+                Console.WriteLine("you choose wrong number");
+            }
+
+
+            Console.WriteLine("Choose taste");
+
+            Console.WriteLine("How many toppings  ");
+
+
+
+
+
+        }
         public static void fillTables(int num)
         {
             Random r = new Random();
@@ -80,7 +135,6 @@ namespace BusinessLogic
             RandomDateTime date = new RandomDateTime();
             date.Next();
             Random gen = new Random();
-            Random gen2 = new Random();
             //generate random values for Tastes_Sales Topping_Sales Sales
             for (int i = 0; i < num; i++)
             { // 86 85
@@ -89,13 +143,12 @@ namespace BusinessLogic
                 date.Next();
                 bool completed = true;
                 bool paid = true;
-                int prob = gen.Next(100);
-                int prob2 = gen2.Next(100);
-                if (prob <= 20)
+ 
+                if (gen.NextDouble() <= 0.2)
                 {
                     completed = false;
                 }
-                if (prob2 <= 20)
+                if (gen.NextDouble() <= 0.2)
                 {
                     paid = false;
                 }
@@ -106,17 +159,17 @@ namespace BusinessLogic
                 if (rReceptacle == 0)
                 {
                     // if its a regular cone then max balls will be 3
-                    balls_amount = r.Next(0, 3);
+                    balls_amount = r.Next(1, 3);
                 }
                 else if (rReceptacle == 1)
                 {
                     // if its a special cone then max balls will be 4 
-                    balls_amount = r.Next(0, 4);
+                    balls_amount = r.Next(1, 4);
                 }
                 else if (rReceptacle == 2)
                 {
                     // if its a Box then max balls will be 7 
-                    balls_amount = r.Next(0, 7);
+                    balls_amount = r.Next(1, 7);
                 }
 
                 // now choose tastes
