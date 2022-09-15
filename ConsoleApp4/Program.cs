@@ -24,8 +24,9 @@ do
     Console.WriteLine("5 - Delete an order");
     Console.WriteLine("6 - Edit an order");
     Console.WriteLine("7 - Read an order");
-    Console.WriteLine("7 - Read an order");
-    Console.WriteLine("");
+    Console.WriteLine("8 - get day report for specific day ");
+    Console.WriteLine("9 - show not completed sales ");
+    Console.WriteLine("10 - most common ingredient");
     Console.WriteLine("(-1) - for exit");
 
     userInput = Int32.Parse(Console.ReadLine());
