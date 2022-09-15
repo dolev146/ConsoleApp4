@@ -24,6 +24,7 @@ do
     Console.WriteLine("5 - Delete an order");
     Console.WriteLine("6 - Edit an order");
     Console.WriteLine("7 - Read an order");
+    Console.WriteLine("7 - Read an order");
     Console.WriteLine("");
     Console.WriteLine("(-1) - for exit");
 
