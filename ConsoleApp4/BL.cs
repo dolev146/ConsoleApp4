@@ -339,42 +339,39 @@ namespace BusinessLogic
                     taste_quantity.Add(taste, 1);
                 }
             }
+            // https://stackoverflow.com/questions/3133711/select-last-id-without-insert
+            ArrayList all = new ArrayList();
+            string connStr = "server=localhost;user=root;port=3306;password=";
+            MySqlConnection conn = new MySqlConnection(connStr);
+            conn.Open();
+            string sql = "SELECT max(`sid`) FROM `ice_cream_store`.`Sales`";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                //Console.WriteLine(rdr[0] + " -- " + rdr[1]);
+                Object[] numb = new Object[rdr.FieldCount];
+                rdr.GetValues(numb);
+                //Array.ForEach(numb, Console.WriteLine);
+                all.Add(numb);
+            }
+            rdr.Close();
+            conn.Close();
+
+            foreach (Object[] row in all)
+            {
+                intindex = (int)row[0];
+
+            }
+
+
             // now insert to taste_sales
             foreach (KeyValuePair<string, int> entry in taste_quantity)
             {
                 // get the index of the taste
                 int taste_index = Array.IndexOf(tastes, entry.Key);
-
-                // https://stackoverflow.com/questions/3133711/select-last-id-without-insert
-                ArrayList all = new ArrayList();
-                string connStr = "server=localhost;user=root;port=3306;password=";
-                MySqlConnection conn = new MySqlConnection(connStr);
-                conn.Open();
-                string sql = "SELECT max(`sid`) FROM `ice_cream_store`.`Sales`";
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                MySqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                {
-                    //Console.WriteLine(rdr[0] + " -- " + rdr[1]);
-                    Object[] numb = new Object[rdr.FieldCount];
-                    rdr.GetValues(numb);
-                    //Array.ForEach(numb, Console.WriteLine);
-                    all.Add(numb);
-                }
-                rdr.Close();
-                conn.Close();
-
-                foreach (Object[] row in all)
-                {
-                    intindex = (int)row[0];
-
-                }
                 Taste_Sale ts = new Taste_Sale(intindex, taste_index + 1, entry.Value);
                 MySqlAccess.MySqlAccess.insertObject(ts);
-
-
-
-
             }
 
             // insert topping_sales
