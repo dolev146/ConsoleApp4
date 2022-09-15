@@ -20,6 +20,7 @@ do
     Console.WriteLine("1 - create empty tables");
     Console.WriteLine("2 - fill tables with data");
     Console.WriteLine("3 - print values of a table");
+    Console.WriteLine("4 - Make an order")
     Console.WriteLine("");
     Console.WriteLine("(-1) - for exit");
 
