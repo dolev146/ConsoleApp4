@@ -53,6 +53,27 @@ namespace BusinessLogic
             MySqlAccess.MySqlAccess.createTables();
         }
 
+        public static void getNotCompletedSales(){
+            string connStr = "server=localhost;user=root;port=3306;password=";
+            MySqlConnection conn = new MySqlConnection(connStr);
+            Console.WriteLine("Connecting to MySQL...");
+            conn.Open();
+            string sql = "SELECT COUNT(*) FROM `ice_cream_store`.`sales` WHERE completed = 0;";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                Console.WriteLine("There are " + rdr[0]+ " not completed sales");
+            }
+            rdr.Close();
+
+            conn.Close();
+
+
+
+
+        }
+
 
 
         public static void getDayReport()

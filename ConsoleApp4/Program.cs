@@ -69,6 +69,9 @@ do
         case 8:
             BusinessLogic.Logic.getDayReport();
             break;
+        case 9:
+            BusinessLogic.Logic.getNotCompletedSales();
+            break;
     }
 
 } while (userInput != -1);
