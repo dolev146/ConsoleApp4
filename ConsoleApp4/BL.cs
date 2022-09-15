@@ -53,7 +53,8 @@ namespace BusinessLogic
             MySqlAccess.MySqlAccess.createTables();
         }
 
-        public static void getNotCompletedSales(){
+        public static void getNotCompletedSales()
+        {
             string connStr = "server=localhost;user=root;port=3306;password=";
             MySqlConnection conn = new MySqlConnection(connStr);
             Console.WriteLine("Connecting to MySQL...");
@@ -63,7 +64,7 @@ namespace BusinessLogic
             MySqlDataReader rdr = cmd.ExecuteReader();
             while (rdr.Read())
             {
-                Console.WriteLine("There are " + rdr[0]+ " not completed sales");
+                Console.WriteLine("There are " + rdr[0] + " not completed sales");
             }
             rdr.Close();
 
@@ -75,10 +76,86 @@ namespace BusinessLogic
         }
 
 
+        public static void getMostCommonIngredient()
+        {
+            long maximum = 0;
+            string mostCommon = "";
+            string connStr = "server=localhost;user=root;port=3306;password=";
+            MySqlConnection conn = new MySqlConnection(connStr);
+            Console.WriteLine("Connecting to MySQL...");
+            conn.Open();
+            // check the most common topping with 
+            //SELECT toppings.name,Toppings_Sales.topid, count(*) as magnitude from sales left join Toppings_Sales on sales.sid = Toppings_Sales.sid left join toppings on toppings.topid = toppings_sales.topid
+            // group by Toppings_Sales.topid 
+            // order by magnitude desc
+            // limit 1;
+            string sql = "SELECT toppings.name,Toppings_Sales.topid, count(*) as magnitude from `ice_cream_store`.`sales` left join `ice_cream_store`.`Toppings_Sales` on sales.sid = Toppings_Sales.sid left join `ice_cream_store`.`toppings` on toppings.topid = toppings_sales.topid group by Toppings_Sales.topid order by magnitude desc limit 1;";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                maximum =  (long)rdr[2];
+                mostCommon = (string)rdr[0];
+                Console.WriteLine("The most common topping is " + rdr[0] + " with " + rdr[2] + " sales");
+            }
+            rdr.Close();
+            // get the most common recepcle
+            //SELECT  Receptacles.name,sales.rid, count(*) as magnitude from sales left join Receptacles on Receptacles.rid = sales.rid
+            // group by sales.rid 
+            // order by magnitude desc
+            // limit 1;
+            sql = "SELECT Receptacles.name,sales.rid, count(*) as magnitude from `ice_cream_store`.`sales` left join `ice_cream_store`.`Receptacles` on Receptacles.rid = sales.rid group by sales.rid order by magnitude desc limit 1;";
+            cmd = new MySqlCommand(sql, conn);
+            rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                if ((long)rdr[2] > maximum)
+                {
+                    maximum = (long)rdr[2];
+                    mostCommon = (string)rdr[0];
+                }
+                Console.WriteLine("The most common receptacle is " + rdr[0] + " with " + rdr[2] + " sales");
+            }
+            rdr.Close();
+            // get the most common taste
+            //SELECT  tastes.name,sales.tid, count(*) as magnitude from sales left join tastes on tastes.tid = sales.tid
+            // group by sales.tid
+            // order by magnitude desc
+            // limit 1;
+            sql = "SELECT `ice_cream_store`.tastes.name,`ice_cream_store`.Tastes_sales.tid, count(*) as magnitude " +
+                "from `ice_cream_store`.sales left join `ice_cream_store`.Tastes_Sales " +
+                "on sales.sid = Tastes_Sales.sid " +
+                "left join `ice_cream_store`.tastes on tastes.tid = Tastes_Sales.tid " +
+                "group by Tastes_Sales.tid " +
+                "order by magnitude desc " +
+                "limit 1; " 
+                 
+                 
+                ;
+            cmd = new MySqlCommand(sql, conn);
+            rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                if ((long)rdr[2] > maximum)
+                {
+                    maximum = (long)rdr[2];
+                    mostCommon = (string)rdr[0];
+                }
+                Console.WriteLine("The most common taste is " + rdr[0] + " with " + rdr[2] + " sales");
+            }
+            rdr.Close();
+            conn.Close();
+
+            // so the most common ingredient is 
+            Console.WriteLine("");
+            Console.WriteLine("finally ...");
+            Console.WriteLine("The most common ingredient is " + mostCommon + " with " + maximum + " sales");
+
+        }
 
         public static void getDayReport()
         {
-            Console.WriteLine("Please enter the date you want to get the stats from (yyyy-mm-dd):"); 
+            Console.WriteLine("Please enter the date you want to get the stats from (yyyy-mm-dd):");
             string date = Console.ReadLine();
             while (!DateTime.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date1))
             {
@@ -140,7 +217,7 @@ namespace BusinessLogic
                 //Array.ForEach(numb, Console.WriteLine);
                 all.Add(numb);
             }
-            
+
 
             int saleId = 0;
             int recepticleId = 0;
@@ -204,7 +281,7 @@ namespace BusinessLogic
                 Console.Write(" " + toppingNames + " ");
 
             }
-            
+
 
         }
 

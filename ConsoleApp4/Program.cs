@@ -72,6 +72,9 @@ do
         case 9:
             BusinessLogic.Logic.getNotCompletedSales();
             break;
+        case 10:
+            BusinessLogic.Logic.getMostCommonIngredient();
+            break;
     }
 
 } while (userInput != -1);
