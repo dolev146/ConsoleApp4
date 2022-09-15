@@ -23,6 +23,7 @@ do
     Console.WriteLine("4 - Make an order");
     Console.WriteLine("5 - Delete an order");
     Console.WriteLine("6 - Edit an order");
+    Console.WriteLine("7 - Read an order");
     Console.WriteLine("");
     Console.WriteLine("(-1) - for exit");
 
@@ -58,8 +59,11 @@ do
             int id1 = Int32.Parse(Console.ReadLine());
             BusinessLogic.Logic.EditOrder(id1);
             break;
-
-
+        case 7:
+            Console.WriteLine("Enter order id");
+            int id2 = Int32.Parse(Console.ReadLine());
+            BusinessLogic.Logic.ReadOrder(id2);
+            break;
     }
 
 } while (userInput != -1);

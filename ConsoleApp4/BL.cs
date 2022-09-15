@@ -53,6 +53,95 @@ namespace BusinessLogic
             MySqlAccess.MySqlAccess.createTables();
         }
 
+        public static void ReadOrder(int order_num)
+        {
+            string connStr = "server=localhost;user=root;port=3306;password=";
+            MySqlConnection conn = new MySqlConnection(connStr);
+            Console.WriteLine("Connecting to MySQL...");
+            conn.Open();
+            ArrayList all = new ArrayList();
+            ArrayList all2 = new ArrayList();
+            string sql = "select * from `ice_cream_store`.`sales` left join `ice_cream_store`.`Tastes_Sales` on Tastes_Sales.sid = sales.sid left join `ice_cream_store`.`Tastes` on Tastes_Sales.tid = tastes.tid where `ice_cream_store`.sales.sid = " + order_num + ";";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                //Console.WriteLine(rdr[0] + " -- " + rdr[1]);
+                Object[] numb = new Object[rdr.FieldCount];
+                rdr.GetValues(numb);
+                //Array.ForEach(numb, Console.WriteLine);
+                all.Add(numb);
+            }
+            
+
+            int saleId = 0;
+            int recepticleId = 0;
+            DateTime dateTime = new DateTime();
+            bool completed = false;
+            bool paid = false;
+            int total_price = 0;
+            int toppingId = 0;
+            string tastesNames = "";
+
+            Console.WriteLine("order id = " + order_num);
+            Console.WriteLine("Tastes Names: ");
+            foreach (Object[] row in all)
+            {
+                saleId = (int)row[0];
+                recepticleId = (int)row[1];
+                dateTime = (DateTime)row[2];
+                completed = (bool)row[3];
+                paid = (bool)row[4];
+                total_price = (int)row[5];
+                toppingId = (int)row[7];
+                tastesNames = (string)row[10];
+                Console.Write(" " + tastesNames + " ");
+            }
+            Console.WriteLine("");
+            Console.Write("Recepticle: " + receptacles_name[recepticleId] + "\n");
+            Console.Write("Date: " + dateTime + "\n");
+            Console.Write("Completed: " + completed + "\n");
+            Console.Write("Paid: " + paid + "\n");
+            Console.Write("Total price: " + total_price + "\n");
+            rdr.Close();
+            conn.Close();
+
+            MySqlConnection conn2 = new MySqlConnection(connStr);
+            Console.WriteLine("Connecting to MySQL...");
+            conn2.Open();
+            // read the toppings 
+            string sql2 = "select * from `ice_cream_store`.`sales` left join `ice_cream_store`.`Toppings_Sales` on Toppings_Sales.sid = sales.sid left join `ice_cream_store`.`Toppings` on Toppings_Sales.topid = Toppings.topid where `ice_cream_store`.sales.sid = " + order_num + ";";
+            MySqlCommand cmd2 = new MySqlCommand(sql2, conn2);
+            MySqlDataReader rdr2 = cmd2.ExecuteReader();
+            Console.WriteLine("Toppings: ");
+            while (rdr2.Read())
+            {
+                //Console.WriteLine(rdr[0] + " -- " + rdr[1]);
+                Object[] numb = new Object[rdr2.FieldCount];
+                rdr2.GetValues(numb);
+                //Array.ForEach(numb, Console.WriteLine);
+                all2.Add(numb);
+                Console.Write(" " + numb[4] + " ");
+            }
+            Console.WriteLine("");
+            rdr2.Close();
+            conn2.Close();
+
+            string toppingNames = "";
+            Console.WriteLine("toppings are : ");
+            foreach (Object[] row in all2)
+            {
+
+                toppingNames = (string)row[9];
+                Console.Write(" " + toppingNames + " ");
+
+            }
+            
+
+        }
+
+
+
         public static void deleteOrder(int order_num)
         {
             string connStr = "server=localhost;user=root;port=3306;password=";
@@ -407,13 +496,7 @@ namespace BusinessLogic
                 Topping_Sale ts = new Topping_Sale(intindex, topping_index + 1);
                 MySqlAccess.MySqlAccess.insertObject(ts);
             }
-
-
-
             Console.WriteLine("Order Done!");
-
-
-
         }
 
         public static void EditOrder(int order_number)
@@ -790,8 +873,8 @@ namespace BusinessLogic
                 cmd.ExecuteNonQuery();
                 Console.WriteLine("No money , no order mister ");
             }
-            
-            sql = "UPDATE `ice_cream_store`.`Sales` SET `total_price` = "  + total_price +  " WHERE sid = " + intindex + ";";
+
+            sql = "UPDATE `ice_cream_store`.`Sales` SET `total_price` = " + total_price + " WHERE sid = " + intindex + ";";
             cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
