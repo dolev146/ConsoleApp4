@@ -53,25 +53,26 @@ namespace BusinessLogic
             MySqlAccess.MySqlAccess.createTables();
         }
 
-        public static void deleteOrder(int order_num){
-                string connStr = "server=localhost;user=root;port=3306;password=";
-                MySqlConnection conn = new MySqlConnection(connStr);
-                Console.WriteLine("Connecting to MySQL...");
-                conn.Open();
+        public static void deleteOrder(int order_num)
+        {
+            string connStr = "server=localhost;user=root;port=3306;password=";
+            MySqlConnection conn = new MySqlConnection(connStr);
+            Console.WriteLine("Connecting to MySQL...");
+            conn.Open();
 
-                string sql = "DELETE FROM `ice_cream_store`.`Tastes_Sales `WHERE `ice_cream_store`.`Sales`.`sid` = " + order_num + ";";
+            string sql = "DELETE FROM `ice_cream_store`.`Tastes_Sales` WHERE sid = " + order_num + ";";
 
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                cmd.ExecuteNonQuery();
-                sql = "DELETE FROM `ice_cream_store`.`Toppings_Sales` WHERE `ice_cream_store`.`Sales`.`sid` = " + order_num + ";";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            sql = "DELETE FROM `ice_cream_store`.`Toppings_Sales` WHERE sid = " + order_num + ";";
 
-                cmd = new MySqlCommand(sql, conn);
-                cmd.ExecuteNonQuery();
-                sql = "DELETE FROM `ice_cream_store`.`Sales` WHERE `ice_cream_store`.`Sales`.`sid` = " + order_num + ";";
-                cmd = new MySqlCommand(sql, conn);
-                cmd.ExecuteNonQuery();
+            cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            sql = "DELETE FROM `ice_cream_store`.`Sales` WHERE sid = " + order_num + ";";
+            cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
 
-                conn.Close();
+            conn.Close();
         }
 
         public static void makeOrder()
@@ -415,27 +416,27 @@ namespace BusinessLogic
 
         }
 
-public static void EditOrder(int order_number)
+        public static void EditOrder(int order_number)
         {
             int intindex = order_number;
 
-           // UPDATE table_name
+            // UPDATE table_name
             //SET column1 = value1, column2 = value2, ...
-             //WHERE condition;
-                            string connStr = "server=localhost;user=root;port=3306;password=";
-                MySqlConnection conn = new MySqlConnection(connStr);
-                Console.WriteLine("Connecting to MySQL...");
-                conn.Open();
+            //WHERE condition;
+            string connStr = "server=localhost;user=root;port=3306;password=";
+            MySqlConnection conn = new MySqlConnection(connStr);
+            Console.WriteLine("Connecting to MySQL...");
+            conn.Open();
 
-                string sql = "DELETE FROM `ice_cream_store`.`Tastes_Sales` WHERE `ice_cream_store`.`Sales`.`sid` = " + intindex + ";";
+            string sql = "DELETE FROM `ice_cream_store`.`Tastes_Sales` WHERE sid = " + intindex + ";";
 
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                cmd.ExecuteNonQuery();
-                sql = "DELETE FROM `ice_cream_store`.`Toppings_Sales` WHERE `ice_cream_store`.`Sales`.`sid` = " + intindex + ";";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            sql = "DELETE FROM `ice_cream_store`.`Toppings_Sales` WHERE sid = " + intindex + ";";
 
-                cmd = new MySqlCommand(sql, conn);
-        
-               cmd.ExecuteNonQuery();
+            cmd = new MySqlCommand(sql, conn);
+
+            cmd.ExecuteNonQuery();
 
             Console.WriteLine("please choose a Receptacle ");
 
@@ -450,11 +451,12 @@ public static void EditOrder(int order_number)
                 receptacle = int.Parse(Console.ReadLine());
             }
 
-            sql = "UPDATE `ice_cream_store`.`Sales` SET `rid` = " + receptacle + " WHERE `ice_cream_store`.`Sales`.`sid` = " + intindex + ";";
+            sql = "UPDATE `ice_cream_store`.`Sales` SET `rid` = " + receptacle + " WHERE sid = " + intindex + ";";
             cmd = new MySqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
-            sql = "UPDATE `ice_cream_store`.`Sales` SET `date` = " + DateTime.Now + " WHERE `ice_cream_store`.`Sales`.`sid` = " + intindex + ";";
+            sql = "UPDATE `ice_cream_store`.`Sales` SET `datetime` = " + "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'" + " WHERE sid = " + intindex + ";";
             cmd = new MySqlCommand(sql, conn);
+            // "UPDATE `ice_cream_store`.`Sales` SET `datetime` = 2022-09-15 16:38:49 WHERE sid = 110;"
             cmd.ExecuteNonQuery();
 
 
@@ -686,7 +688,7 @@ public static void EditOrder(int order_number)
 
             }
 
-    
+
 
             int ball_price = 0;
             if (balls == 1)
@@ -716,7 +718,7 @@ public static void EditOrder(int order_number)
             Console.WriteLine("Your chosen balls are: " + balls);
             Console.WriteLine("Your chosen receptacle price is: " + receptacles_price[receptacle]);
 
-  
+
 
 
             // https://stackoverflow.com/questions/15862191/counting-the-number-of-times-a-value-appears-in-an-array
@@ -734,7 +736,7 @@ public static void EditOrder(int order_number)
                     taste_quantity.Add(taste, 1);
                 }
             }
-          
+
 
             // now insert to taste_sales
             foreach (KeyValuePair<string, int> entry in taste_quantity)
@@ -759,14 +761,14 @@ public static void EditOrder(int order_number)
             string answer = Console.ReadLine();
             if (answer == "Y")
             {
-                sql = "UPDATE `ice_cream_store`.`Sales` SET `completed` = '1' WHERE `ice_cream_store`.`Sales`.`sid` = " + intindex + ";";
+                sql = "UPDATE `ice_cream_store`.`Sales` SET `completed` = '1' WHERE sid = " + intindex + ";";
                 cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
                 Console.WriteLine("Your order has been completed");
             }
             else
             {
-                sql = "UPDATE `ice_cream_store`.`Sales` SET `completed` = '0' WHERE `ice_cream_store`.`Sales`.`sid` = " + intindex + ";";
+                sql = "UPDATE `ice_cream_store`.`Sales` SET `completed` = '0' WHERE sid = " + intindex + ";";
                 cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
                 Console.WriteLine("Your order has been canceled");
@@ -776,20 +778,23 @@ public static void EditOrder(int order_number)
             answer = Console.ReadLine();
             if (answer == "Y")
             {
-                sql = "UPDATE `ice_cream_store`.`Sales` SET `paid` = '1' WHERE `ice_cream_store`.`Sales`.`sid` = " + intindex + ";";
+                sql = "UPDATE `ice_cream_store`.`Sales` SET `paid` = '1' WHERE sid = " + intindex + ";";
                 cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
                 Console.WriteLine("Your order has been paid");
             }
             else
             {
-                sql = "UPDATE `ice_cream_store`.`Sales` SET `paid` = '0' WHERE `ice_cream_store`.`Sales`.`sid` = " + intindex + ";";
+                sql = "UPDATE `ice_cream_store`.`Sales` SET `paid` = '0' WHERE sid = " + intindex + ";";
                 cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
                 Console.WriteLine("No money , no order mister ");
             }
-
-
+            
+            sql = "UPDATE `ice_cream_store`.`Sales` SET `total_price` = "  + total_price +  " WHERE sid = " + intindex + ";";
+            cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
 
             Console.WriteLine("Order Done!");
 

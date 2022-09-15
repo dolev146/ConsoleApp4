@@ -56,7 +56,6 @@ do
         case 6:
             Console.WriteLine("Enter order id");
             int id1 = Int32.Parse(Console.ReadLine());
-            BusinessLogic.Logic.deleteOrder(id1);
             BusinessLogic.Logic.EditOrder(id1);
             break;
 
