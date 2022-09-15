@@ -168,7 +168,7 @@ namespace MySqlAccess
                     Sale sale = (Sale)obj;
                     sql = "INSERT INTO `ice_cream_store`.`Sales` (`rid`, `datetime`, `completed`, `paid`, `total_price`) " +
                     "VALUES ('" + sale.getrid()  + "', '" +
-                     sale.getDateTime().ToString() + "', '" + sale.getCompleted() + "', '" + sale.getPaid() + "', '" + sale.getTotalPrice() +"');";
+                     sale.getDateTime().ToString() + "', " + sale.getCompleted() + ", " + sale.getPaid() + ", '" + sale.getTotalPrice() +"');";
                 }
 
                 MySqlCommand cmd = new MySqlCommand(sql, conn);

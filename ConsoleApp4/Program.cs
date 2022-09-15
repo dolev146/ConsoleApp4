@@ -20,6 +20,7 @@ do
     Console.WriteLine("1 - create empty tables");
     Console.WriteLine("2 - fill tables with data");
     Console.WriteLine("3 - print values of a table");
+    Console.WriteLine("4 - Make an order");
     Console.WriteLine("");
     Console.WriteLine("(-1) - for exit");
 
@@ -42,6 +43,10 @@ do
                 Console.WriteLine("   {0}", obj);
             Console.WriteLine();
             break;
+        case 4:
+            BusinessLogic.Logic.makeOrder();
+            break; 
+
     }
 
 } while (userInput != -1);

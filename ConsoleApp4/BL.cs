@@ -49,6 +49,308 @@ namespace BusinessLogic
         {
             MySqlAccess.MySqlAccess.createTables();
         }
+
+        public static void makeOrder()
+        {
+            Console.WriteLine("please choose a Receptacle ");
+          
+            for (int i = 0; i < receptacles_name.Length; i++)
+            {
+                Console.WriteLine(i + " " + receptacles_name[i]);
+            }
+            int receptacle = int.Parse(Console.ReadLine());
+            while (receptacle < 0 || receptacle > receptacles_name.Length)
+            {
+                Console.WriteLine("please choose a Receptacle between 0 to " + receptacles_name.Length);
+                receptacle = int.Parse(Console.ReadLine());
+            }
+
+
+                        
+            List<string> chosen_tastes = new List<string>();
+            HashSet<string> chosen_toppings = new HashSet<string>();
+
+            Console.WriteLine("How many balls of ice cream  ");
+            int balls  = 0 ;
+            if (receptacle == 0)
+            {
+                for (int i = 1; i <= 3; i++)
+                {
+                    Console.WriteLine(i + " " + "balls" );
+                }
+                balls = int.Parse(Console.ReadLine());
+                while (balls > 3 || balls < 1)
+                {
+                    Console.WriteLine("please choose a number between 1-3");
+                    balls = int.Parse(Console.ReadLine());
+                }
+            }
+            else if (receptacle == 1)
+            {
+                for (int i = 1; i <= 4; i++)
+                {
+                    Console.WriteLine(i + " " + "balls");
+                }
+                balls = int.Parse(Console.ReadLine());
+                while (balls > 4 || balls < 1)
+                {
+                    Console.WriteLine("please choose a number between 1-4");
+                    balls = int.Parse(Console.ReadLine());
+                }
+            }
+            else if (receptacle == 2)
+            {
+                for (int i = 1; i <= 7; i++)
+                {
+                    Console.WriteLine(i + " " + "balls");
+                }
+                balls = int.Parse(Console.ReadLine());
+                while (balls > 7 || balls < 1)
+                {
+                    Console.WriteLine("please choose a number between 1-7");
+                    balls = int.Parse(Console.ReadLine());
+                }
+            }
+            else
+            {
+                Console.WriteLine("you choose wrong number");
+            }
+
+            Console.WriteLine("please choose a taste ");
+            for (int i = 0; i < tastes.Length; i++)
+            {
+                Console.WriteLine(i + " " + tastes[i]);
+            }
+            for (int i = 0; i < balls; i++)
+            {
+                int taste = int.Parse(Console.ReadLine());
+                while (taste > 14 || taste < 0)
+                {
+                    Console.WriteLine("please choose a number between 0-14");
+                    taste = int.Parse(Console.ReadLine());
+                }
+                chosen_tastes.Add(tastes[taste]);
+            }
+
+            Console.WriteLine("please choose a topping ");
+
+            if (balls > 1){ 
+                if (receptacle == 0){
+                    if ((chosen_tastes.Contains("Chocolate") || chosen_tastes.Contains("Mekupelet") && chosen_tastes.Contains("Vanil") )  ){
+                        for (int i =0; i < toppings_for_chocolate_mekupelet_vanila.Length; i++)
+                        {
+                            Console.WriteLine(i + " " + toppings_for_chocolate_mekupelet_vanila[i]);
+                        }
+                        int topping = int.Parse(Console.ReadLine());
+                        while (topping > 4 || topping < 0)
+                        {
+                            Console.WriteLine("please choose a number between 0-4");
+                            topping = int.Parse(Console.ReadLine());
+                        }
+                        chosen_toppings.Add(toppings_for_chocolate_mekupelet_vanila[topping]);
+                    }
+                   else if (chosen_tastes.Contains("Chocolate") || chosen_tastes.Contains("Mekupelet"))
+                        {
+                            for (int i = 0; i < toppings_for_chocolate_mekupelet.Length; i++)
+                            {
+                                Console.WriteLine(i + " " + toppings_for_chocolate_mekupelet[i]);
+                            }
+                            int topping = int.Parse(Console.ReadLine());
+                            while (topping > 5 || topping < 0)
+                            {
+                                Console.WriteLine("please choose a number between 0-5");
+                                topping = int.Parse(Console.ReadLine());
+                            }
+                            chosen_toppings.Add(toppings_for_chocolate_mekupelet[topping]);
+
+                        }
+                        else if (chosen_tastes.Contains("Vanil"))
+                        {
+                            for (int i = 0; i < toppings_for_vanil.Length; i++)
+                            {
+                                Console.WriteLine(i + " " + toppings_for_vanil[i]);
+                            }
+                            int topping = int.Parse(Console.ReadLine());
+                            while (topping > 5 || topping < 0)
+                            {
+                                Console.WriteLine("please choose a number between 0-5");
+                                topping = int.Parse(Console.ReadLine());
+                            }
+                            chosen_toppings.Add(toppings_for_vanil[topping]);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < toppings.Length; i++)
+                            {
+                                Console.WriteLine(i + " " + toppings[i]);
+                            }
+                            int topping = int.Parse(Console.ReadLine());
+                            while (topping > 6 || topping < 0)
+                            {
+                                Console.WriteLine("please choose a number between 0-6");
+                                topping = int.Parse(Console.ReadLine());
+                            }
+                            chosen_toppings.Add(toppings[topping]);
+                        }
+                }else if (receptacle == 1 || receptacle == 2){
+                     int toppings11 = 1; 
+                    if (receptacle == 1){
+                    Console.WriteLine("Wow you took a Spacial Receptacle, how many toppings do you want? ");
+                    toppings11 = int.Parse(Console.ReadLine());
+                    while (toppings11 > 6 || toppings11 < 0)
+                    {
+                        Console.WriteLine("please choose a number between 0-6");
+                        toppings11 = int.Parse(Console.ReadLine());
+                    }
+                    }else {
+                        Console.WriteLine("Wow you took a BOX, how many toppings do you want? ( max 3 ) ");
+                        toppings11 = int.Parse(Console.ReadLine());
+                        while (toppings11 > 3 || toppings11 < 0)
+                        {
+                            Console.WriteLine("please choose a number between 0-3");
+                            toppings11 = int.Parse(Console.ReadLine());
+                        }
+
+                    }
+                    for (int j = 0; j < toppings11; j++)
+                    {
+                        Console.WriteLine("please choose the "+ (j+1) + " topping ");
+                                            if ((chosen_tastes.Contains("Chocolate") || chosen_tastes.Contains("Mekupelet") && chosen_tastes.Contains("Vanil") )  ){
+                        for (int i =0; i < toppings_for_chocolate_mekupelet_vanila.Length; i++)
+                        {
+                            Console.WriteLine(i + " " + toppings_for_chocolate_mekupelet_vanila[i]);
+                        }
+                        int topping = int.Parse(Console.ReadLine());
+                        while (topping > 4 || topping < 0)
+                        {
+                            Console.WriteLine("please choose a number between 0-4");
+                            topping = int.Parse(Console.ReadLine());
+                        }
+                        chosen_toppings.Add(toppings_for_chocolate_mekupelet_vanila[topping]);
+                    }
+                   else if (chosen_tastes.Contains("Chocolate") || chosen_tastes.Contains("Mekupelet"))
+                        {
+                            for (int i = 0; i < toppings_for_chocolate_mekupelet.Length; i++)
+                            {
+                                Console.WriteLine(i + " " + toppings_for_chocolate_mekupelet[i]);
+                            }
+                            int topping = int.Parse(Console.ReadLine());
+                            while (topping > 5 || topping < 0)
+                            {
+                                Console.WriteLine("please choose a number between 0-5");
+                                topping = int.Parse(Console.ReadLine());
+                            }
+                            chosen_toppings.Add(toppings_for_chocolate_mekupelet[topping]);
+
+                        }
+                        else if (chosen_tastes.Contains("Vanil"))
+                        {
+                            for (int i = 0; i < toppings_for_vanil.Length; i++)
+                            {
+                                Console.WriteLine(i + " " + toppings_for_vanil[i]);
+                            }
+                            int topping = int.Parse(Console.ReadLine());
+                            while (topping > 5 || topping < 0)
+                            {
+                                Console.WriteLine("please choose a number between 0-5");
+                                topping = int.Parse(Console.ReadLine());
+                            }
+                            chosen_toppings.Add(toppings_for_vanil[topping]);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < toppings.Length; i++)
+                            {
+                                Console.WriteLine(i + " " + toppings[i]);
+                            }
+                            int topping = int.Parse(Console.ReadLine());
+                            while (topping > 6 || topping < 0)
+                            {
+                                Console.WriteLine("please choose a number between 0-6");
+                                topping = int.Parse(Console.ReadLine());
+                            }
+                            chosen_toppings.Add(toppings[topping]);
+                        }
+                        
+
+                        
+                    } 
+                }
+
+
+
+            }
+            int ball_price = 0;
+                if (balls == 1)
+                {
+                    ball_price = 7;
+                }
+                else if (balls == 2)
+                {
+                    ball_price = 12;
+                }
+                else if (balls > 3)
+                {
+                    ball_price = balls* 6;
+                }
+                int total_price = ball_price + receptacles_price[receptacle];
+                Console.WriteLine("Your total price is " + total_price + " NIS");
+                Console.WriteLine("Your chosen tastes are: ");
+                foreach (string taste in chosen_tastes)
+                {
+                    Console.WriteLine(taste);
+                }
+                Console.WriteLine("Your chosen toppings are: ");
+                foreach (string topping in chosen_toppings)
+                {
+                    Console.WriteLine(topping);
+                }
+                Console.WriteLine("Your chosen balls are: " + balls);
+                Console.WriteLine("Your chosen receptacle price is: " + receptacles_price[receptacle]);
+
+                Sale s = new Sale(receptacle + 1, DateTime.Now, true, true, total_price);
+
+                  MySqlAccess.MySqlAccess.insertObject(s);
+                // https://stackoverflow.com/questions/15862191/counting-the-number-of-times-a-value-appears-in-an-array
+                // insert taste_sales
+                // make hashmap for tastes quantity
+                Dictionary<string, int> taste_quantity = new Dictionary<string, int>();
+                foreach (string taste in chosen_tastes)
+                {
+                    if (taste_quantity.ContainsKey(taste))
+                    {
+                        taste_quantity[taste]++;
+                    }
+                    else
+                    {
+                        taste_quantity.Add(taste, 1);
+                    }
+                }
+                // now insert to taste_sales
+                foreach (KeyValuePair<string, int> entry in taste_quantity)
+                {
+                    // get the index of the taste
+                    int taste_index = Array.IndexOf(tastes, entry.Key);
+                    Taste_Sale ts = new Taste_Sale(i + 1, taste_index + 1, entry.Value);
+                    MySqlAccess.MySqlAccess.insertObject(ts);
+                }
+                // insert topping_sales
+                // now insert to topping_sales
+                foreach (string topping in chosen_toppings)
+                {
+                    // get the index of the topping
+                    int topping_index = Array.IndexOf(toppings, topping);
+                    Topping_Sale ts = new Topping_Sale(i + 1, topping_index + 1);
+                    MySqlAccess.MySqlAccess.insertObject(ts);
+                }
+
+
+        
+            Console.WriteLine("Order Done!");
+
+
+
+        }
         public static void fillTables(int num)
         {
             Random r = new Random();
@@ -80,7 +382,6 @@ namespace BusinessLogic
             RandomDateTime date = new RandomDateTime();
             date.Next();
             Random gen = new Random();
-            Random gen2 = new Random();
             //generate random values for Tastes_Sales Topping_Sales Sales
             for (int i = 0; i < num; i++)
             { // 86 85
@@ -89,13 +390,12 @@ namespace BusinessLogic
                 date.Next();
                 bool completed = true;
                 bool paid = true;
-                int prob = gen.Next(100);
-                int prob2 = gen2.Next(100);
-                if (prob <= 20)
+ 
+                if (gen.NextDouble() <= 0.2)
                 {
                     completed = false;
                 }
-                if (prob2 <= 20)
+                if (gen.NextDouble() <= 0.2)
                 {
                     paid = false;
                 }
@@ -106,17 +406,17 @@ namespace BusinessLogic
                 if (rReceptacle == 0)
                 {
                     // if its a regular cone then max balls will be 3
-                    balls_amount = r.Next(0, 3);
+                    balls_amount = r.Next(1, 3);
                 }
                 else if (rReceptacle == 1)
                 {
                     // if its a special cone then max balls will be 4 
-                    balls_amount = r.Next(0, 4);
+                    balls_amount = r.Next(1, 4);
                 }
                 else if (rReceptacle == 2)
                 {
                     // if its a Box then max balls will be 7 
-                    balls_amount = r.Next(0, 7);
+                    balls_amount = r.Next(1, 7);
                 }
 
                 // now choose tastes
@@ -135,17 +435,17 @@ namespace BusinessLogic
                         if ((chosen_tastes.Contains("Chocolate") || chosen_tastes.Contains("Mekupelet")) && chosen_tastes.Contains("Vanil"))
                         {
                             int rTopping = r.Next(0, toppings_for_chocolate_mekupelet_vanila.Length);
-                            chosen_toppings.Add(toppings[rTopping]);
+                            chosen_toppings.Add(toppings_for_chocolate_mekupelet_vanila[rTopping]);
                         }
                         else if (chosen_tastes.Contains("Chocolate") || chosen_tastes.Contains("Mekupelet"))
                         {
                             int rTopping = r.Next(0, toppings_for_chocolate_mekupelet.Length);
-                            chosen_toppings.Add(toppings[rTopping]);
+                            chosen_toppings.Add(toppings_for_chocolate_mekupelet[rTopping]);
                         }
                         else if (chosen_tastes.Contains("Vanil"))
                         {
                             int rTopping = r.Next(0, toppings_for_vanil.Length);
-                            chosen_toppings.Add(toppings[rTopping]);
+                            chosen_toppings.Add(toppings_for_vanil[rTopping]);
                         }
                         else
                         {
