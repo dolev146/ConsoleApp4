@@ -21,6 +21,8 @@ do
     Console.WriteLine("2 - fill tables with data");
     Console.WriteLine("3 - print values of a table");
     Console.WriteLine("4 - Make an order");
+    Console.WriteLine("5 - Delete an order");
+    Console.WriteLine("6 - Edit an order");
     Console.WriteLine("");
     Console.WriteLine("(-1) - for exit");
 
@@ -46,6 +48,18 @@ do
         case 4:
             BusinessLogic.Logic.makeOrder();
             break; 
+        case 5:
+            Console.WriteLine("Enter order id");
+            int id = Int32.Parse(Console.ReadLine());
+            BusinessLogic.Logic.deleteOrder(id);
+            break;
+        case 6:
+            Console.WriteLine("Enter order id");
+            int id1 = Int32.Parse(Console.ReadLine());
+            BusinessLogic.Logic.deleteOrder(id1);
+            BusinessLogic.Logic.EditOrder(id1);
+            break;
+
 
     }
 
