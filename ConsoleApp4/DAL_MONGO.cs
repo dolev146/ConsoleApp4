@@ -10,6 +10,69 @@ namespace MongoAccess
 {
     public class MongoAccess
     {
+
+        public static void getMostCommonIngredient()
+        {
+            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://arielUni:arielUni123@cluster0.ayzwu1i.mongodb.net/?retryWrites=true&w=majority");
+            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+            var client = new MongoClient(settings);
+            var database = client.GetDatabase("ice_cream_store_mongo");
+            IMongoCollection<MongoSale> collection = database.GetCollection<MongoSale>("sales");
+            // check what is the most used taste from all sales from sale.tastesQuantityArray contains
+            // array of objects {"tasteName": "name", "quantity": int } that can call .getTasteName() and .getQuantity() 
+            // to get the tasteName and quantity
+            // create a dictionary that will hold the tasteName and the quantity of the taste
+            Dictionary<string, int> tasteQuantity = new Dictionary<string, int>();
+            // get all sales
+            var sales = collection.Find(new BsonDocument()).ToList();
+            // loop over all sales
+            foreach (var sale in sales)
+            {
+                // loop over all tastesQuantityArray
+                foreach (var tasteQuantityObject in sale.tastesQuantityArray)
+                {
+                    // check if the tasteName is in the dictionary
+                    if (tasteQuantity.ContainsKey(tasteQuantityObject.getTasteName()))
+                    {
+                        // if it is in the dictionary add the quantity to the tasteName
+                        tasteQuantity[tasteQuantityObject.getTasteName()] += tasteQuantityObject.getQuantity();
+                    }
+                    else
+                    {
+                        // if it is not in the dictionary add the tasteName and the quantity
+                        tasteQuantity.Add(tasteQuantityObject.getTasteName(), tasteQuantityObject.getQuantity());
+                    }
+                }
+            }
+            // get the most common tasteName
+            string mostCommonTasteName = "";
+            int mostCommonTasteQuantity = 0;
+            foreach (var taste in tasteQuantity)
+            {
+                if (taste.Value > mostCommonTasteQuantity)
+                {
+                    mostCommonTasteName = taste.Key;
+                    mostCommonTasteQuantity = taste.Value;
+                }
+            }
+            // print the most common tasteName
+            Console.WriteLine("The most common taste is: " + mostCommonTasteName + " with " + mostCommonTasteQuantity + " quantity");
+
+
+
+
+
+        }
+        public static void deleteSale(string _id)
+        {
+            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://arielUni:arielUni123@cluster0.ayzwu1i.mongodb.net/?retryWrites=true&w=majority");
+            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+            var client = new MongoClient(settings);
+            var database = client.GetDatabase("ice_cream_store_mongo");
+            IMongoCollection<MongoSale> collection = database.GetCollection<MongoSale>("sales");
+            var filter = Builders<MongoSale>.Filter.Eq("_id", _id);
+            collection.DeleteOne(filter);
+        }
         public static void getNotCompletedSales()
         {
             var settings = MongoClientSettings.FromConnectionString("mongodb+srv://arielUni:arielUni123@cluster0.ayzwu1i.mongodb.net/?retryWrites=true&w=majority");

@@ -284,27 +284,9 @@ namespace BusinessLogic
             var client = new MongoClient(settings);
             var database = client.GetDatabase("ice_cream_store_mongo");
             var collection = database.GetCollection<BsonDocument>("sales");
-            var array = new ArrayList();
-            foreach (var item in sale.tastesQuantityArray)
-            {
-                // add the taste and quantity to the array
-                array.Add("{" + "\"" + item.getTasteName() + "\"" + ":" + "\"" + item.getQuantity() + "\"" + "}");
-            }
-
-            BsonDocument bsonSale = new BsonDocument
-            {
-                { "receptacle", sale.receptacle.getName() },
-                // sale quantity array
-                {"tastes_quantity", new BsonArray(tastes_list)},
-                { "toppings", new BsonArray(toppings_list) },
-                { "paid", sale.getPaid() },
-                { "completed", sale.getCompleted() },
-                { "date", sale.getDate() },
-                { "price", sale.getTotalPrice() }
-            };
             try
             {
-                collection.InsertOne(bsonSale);
+                collection.InsertOne(sale.ToBsonDocument());
             }
             catch (Exception e)
             {

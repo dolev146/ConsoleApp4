@@ -188,9 +188,11 @@ namespace BusinessEntities
 
     // create new class for mongo sale db
     // id need to be a string
+    [BsonIgnoreExtraElements]
     public class MongoSale
     {
-        string id;
+        [BsonId]
+        public ObjectId _id { get; set; }
         int rid;
         string recepcleName;
         // hold a Receptcle type
@@ -237,9 +239,9 @@ namespace BusinessEntities
         // get topping list
         public ArrayList getToppings() { return toppings; }
 
-        public void setID(string id) { this.id = id; }
+        public void setID(string _id) { this._id = new ObjectId(_id); }
         public int getrid() { return rid; }
-        public string getId() { return id; }
+        public string getId() { return _id.ToString(); }
         public int getTotalPrice() { return total_price; }
         public string getDateTime()
         {
@@ -277,17 +279,19 @@ namespace BusinessEntities
         public bool getCompleted() { return completed; }
         public bool getPaid() { return paid; }
 
-        public DateTime getDate(){
+        public DateTime getDate()
+        {
             return dateTime;
         }
 
         public override string ToString()
         {
-            string r = "id: " + id + " , rid: " + rid + " , recepcleName: " + recepcleName + " , dateTime: " + dateTime + " , completed: " + completed + " , paid: " + paid + " , total_price: " + total_price + " , tastesQuantityArray: " + tastesQuantityArray + " , toppings: " + toppings;
+            string r = "_id: " + _id + " , rid: " + rid + " , recepcleName: " + recepcleName + " , dateTime: " + dateTime + " , completed: " + completed + " , paid: " + paid + " , total_price: " + total_price + " , tastesQuantityArray: " + tastesQuantityArray + " , toppings: " + toppings;
             return r;
         }
 
-        public void calculateTotalPrice(){
+        public void calculateTotalPrice()
+        {
             // if regualar cone then add is 0
             // if special cone then add is 2
             // if box then add is 5

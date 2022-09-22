@@ -120,6 +120,38 @@ if (userChoice == "mongo")
                 // edit the sale
                 Logic.MongoEditOrder(idEdit);
                 break;
+            case 8:
+                // delete sale
+                Console.WriteLine("_____________________");
+                Console.WriteLine("Delete sale");
+                Console.WriteLine("_____________________");
+                // get the id of the sale
+                Console.WriteLine("Please enter the id of the sale");
+                string idDelete = Console.ReadLine();
+                // get the sale from mongo
+                MongoAccess.MongoAccess.getSale(idDelete);
+                // delete the sale
+                MongoAccess.MongoAccess.deleteSale(idDelete);
+                break;
+            case 9:
+                // read sale
+                Console.WriteLine("_____________________");
+                Console.WriteLine("Read sale");
+                Console.WriteLine("_____________________");
+                // get the id of the sale
+                Console.WriteLine("Please enter the id of the sale");
+                string idRead = Console.ReadLine();
+                // get the sale from mongo
+                MongoAccess.MongoAccess.getSale(idRead);
+                break;
+            case 10:
+                // most common ingredient
+                Console.WriteLine("_____________________");
+                Console.WriteLine("Get the most common ingredient");
+                Console.WriteLine("_____________________");
+                // get the sales from mongo
+                MongoAccess.MongoAccess.getMostCommonIngredient();
+                break;
 
 
         }
