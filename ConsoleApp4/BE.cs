@@ -1,4 +1,7 @@
 using System.Collections;
+//added for mongo semi-generated class
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace BusinessEntities
 {
@@ -83,7 +86,7 @@ namespace BusinessEntities
         }
     }
 
-    class Receptacle
+    public class Receptacle
     {
         int id;
         string name;
@@ -155,8 +158,85 @@ namespace BusinessEntities
     }
 
 
+    public class TasteQuantity
+    {
+        // this class hold json of tasteName quantity objects {"tasteName":quantity}
+        public string tasteName { get; set; }
+        public int quantity { get; set; }
+
+        public override string ToString()
+        {
+            return base.ToString() + "tasteName: " + tasteName + " , quantity: " + quantity;
+        }
+
+        // constructor
+        public TasteQuantity(string tasteName, int quantity)
+        {
+            this.tasteName = tasteName;
+            this.quantity = quantity;
+        }
+
+    }
 
 
 
 
+    // create new class for mongo sale db
+    // id need to be a string
+    public class MongoSale
+    {
+        string id;
+        int rid;
+        string recepcleName;
+        // hold a Receptcle type
+        Receptacle receptacle;
+        // hold a list of objects that are "tasteName" : "quantity" Taste's and quantity of the taste
+        ArrayList tastesQuantityArray;
+        // hold a list of toppings names
+        ArrayList toppings;
+
+        DateTime dateTime;
+        bool completed;
+        bool paid;
+        int total_price;
+
+
+        public MongoSale(int rid, string recepcleName, DateTime dateTime, bool completed, bool paid, int total_price, ArrayList tastesQuantityArray, ArrayList toppings)
+        {
+            this.toppings = toppings;
+            this.tastesQuantityArray = tastesQuantityArray;
+            this.rid = rid;
+            this.receptacle = new Receptacle(recepcleName, rid);
+            this.dateTime = dateTime;
+            this.completed = completed;
+            this.paid = paid;
+            this.total_price = total_price;
+        }
+
+        // set taste list
+        public void settastesQuantityArray(ArrayList tastesQuantityArray) { this.tastesQuantityArray = tastesQuantityArray; }
+        // set topping list
+        public void setToppings(ArrayList toppings) { this.toppings = toppings; }
+        // set receptacle
+        public void SetReceptacle(Receptacle receptacle) { this.receptacle = receptacle; }
+        // get receptacle
+        public Receptacle GetReceptacle() { return receptacle; }
+        // get taste list
+        public ArrayList getTastesQuantityArray() { return tastesQuantityArray; }
+        // get topping list
+        public ArrayList getToppings() { return toppings; }
+
+        public void setID(string id) { this.id = id; }
+        public int getrid() { return rid; }
+        public string getId() { return id; }
+        public int getTotalPrice() { return total_price; }
+        public string getDateTime()
+        {
+            string formatForMySql = dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+            return formatForMySql;
+        }
+        public bool getCompleted() { return completed; }
+        public bool getPaid() { return paid; }
+
+    }
 }

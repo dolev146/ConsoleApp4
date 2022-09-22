@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Globalization;
 using BusinessEntities;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using MySql.Data.MySqlClient;
 
 namespace BusinessLogic
@@ -30,22 +32,129 @@ namespace BusinessLogic
     public class Logic
     {
 
-        static string[] colors = { "Yellow", "White", "Black", "Green", "Transparent" };
-        static string[] tasks = { "Service 10K", "Wheels", "BodyWork" };
-        static string[] desc = { "Replace filets of oil,gasoline,air contidioner", "Change 4 tires", "fix scratchs" };
-        static string[] cities = { "Jerusalem", "Tel Aviv", "Beeh Sheva", "Ariel" };
-
+        public static string[] colors = { "Yellow", "White", "Black", "Green", "Transparent" };
+        public static string[] tasks = { "Service 10K", "Wheels", "BodyWork" };
+        public static string[] desc = { "Replace filets of oil,gasoline,air contidioner", "Change 4 tires", "fix scratchs" };
+        public static string[] cities = { "Jerusalem", "Tel Aviv", "Beeh Sheva", "Ariel" };
         // tastes = names
-        static string[] tastes = { "Vanil", "Chocolate", "Mekupelet", "Pistachio", "Cherry", "Halva", "Mango", "Mint", "Rum", "Strawberry", "Teaberry", "Tutti-Frutti", "Twist", "Watermelon", "Banana" };
+        public static string[] tastes = { "Vanil", "Chocolate", "Mekupelet", "Pistachio", "Cherry", "Halva", "Mango", "Mint", "Rum", "Strawberry", "Teaberry", "Tutti-Frutti", "Twist", "Watermelon", "Banana" };
         // receptacles = cars
-        static string[] receptacles_name = { "Regular_cone", "Special_cone", "Box" };
-        static int[] receptacles_price = { 0, 2, 5 };
+        public static string[] receptacles_name = { "Regular_cone", "Special_cone", "Box" };
+        public static int[] receptacles_price = { 0, 2, 5 };
         // toppings 
-        static string[] toppings = { "maple_syrup", "chocolate_syrup", "color_sparkles", "black_sparkls", "tchina", "cherry_syrup" };
-        static string[] toppings_for_vanil = { "chocolate_syrup", "color_sparkles", "black_sparkls", "tchina", "cherry_syrup" };
-        static string[] toppings_for_chocolate_mekupelet = { "maple_syrup", "color_sparkles", "black_sparkls", "tchina", "cherry_syrup" };
-        static string[] toppings_for_chocolate_mekupelet_vanila = { "color_sparkles", "black_sparkls", "tchina", "cherry_syrup" };
+        public static string[] toppings = { "maple_syrup", "chocolate_syrup", "color_sparkles", "black_sparkls", "tchina", "cherry_syrup" };
+        public static string[] toppings_for_vanil = { "chocolate_syrup", "color_sparkles", "black_sparkls", "tchina", "cherry_syrup" };
+        public static string[] toppings_for_chocolate_mekupelet = { "maple_syrup", "color_sparkles", "black_sparkls", "tchina", "cherry_syrup" };
+        public static string[] toppings_for_chocolate_mekupelet_vanila = { "color_sparkles", "black_sparkls", "tchina", "cherry_syrup" };
 
+        
+
+        public static void fill_Receptacles_to_mongo()
+        {
+            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://arielUni:arielUni123@cluster0.ayzwu1i.mongodb.net/?retryWrites=true&w=majority");
+            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+            var client = new MongoClient(settings);
+            var database = client.GetDatabase("ice_cream_store_mongo");
+            var collection = database.GetCollection<BsonDocument>("receptacles");
+            for (int i = 0; i < receptacles_name.Length; i++)
+            {
+                BsonDocument document = new BsonDocument
+                {
+                    { "name", receptacles_name[i] },
+                    { "price", receptacles_price[i] }
+                };
+                collection.InsertOne(document);
+            }
+
+        }
+
+        public static void fill_Toppings_to_mongo()
+        {
+            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://arielUni:arielUni123@cluster0.ayzwu1i.mongodb.net/?retryWrites=true&w=majority");
+            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+            var client = new MongoClient(settings);
+            var database = client.GetDatabase("ice_cream_store_mongo");
+            var collection = database.GetCollection<BsonDocument>("toppings");
+            for (int i = 0; i < toppings.Length; i++)
+            {
+                BsonDocument document = new BsonDocument
+                {
+                    { "name", toppings[i] }
+                };
+                collection.InsertOne(document);
+            }
+        }
+
+        public static void fill_Tastes_to_mongo()
+        {
+
+            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://arielUni:arielUni123@cluster0.ayzwu1i.mongodb.net/?retryWrites=true&w=majority");
+            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+            var client = new MongoClient(settings);
+            var database = client.GetDatabase("ice_cream_store_mongo");
+            var collection = database.GetCollection<BsonDocument>("tastes");
+            for (int i = 0; i < tastes.Length; i++)
+            {
+                BsonDocument document = new BsonDocument
+                {
+                    { "name", tastes[i] }
+                };
+                collection.InsertOne(document);
+            }
+
+        }
+
+        public static void MongoMakeOrder()
+        {
+            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://arielUni:arielUni123@cluster0.ayzwu1i.mongodb.net/?retryWrites=true&w=majority");
+            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+            var client = new MongoClient(settings);
+            var database = client.GetDatabase("ice_cream_store_mongo");
+            var collection = database.GetCollection<BsonDocument>("sales");
+
+            // ask what recepacle to use
+            Console.WriteLine("Choose a recepacle: ");
+            for (int i = 0; i < receptacles_name.Length; i++)
+            {
+                Console.WriteLine(i + 1 + ". " + receptacles_name[i]);
+            }
+            int recepacle = Convert.ToInt32(Console.ReadLine()) - 1;
+
+            // make for loop to choose tastes and quantity Objects of each taste untill say done
+            List<BsonDocument> tastes_list = new List<BsonDocument>();
+            string answer = "yes";
+            while (answer == "yes")
+            {
+                Console.WriteLine("Choose a taste: ");
+                for (int i = 0; i < tastes.Length; i++)
+                {
+                    Console.WriteLine(i + 1 + ". " + tastes[i]);
+                }
+                int taste = Convert.ToInt32(Console.ReadLine()) - 1;
+                Console.WriteLine("Choose quantity: ");
+                int quantity = Convert.ToInt32(Console.ReadLine());
+                BsonDocument taste_document = new BsonDocument
+                {
+                    { "name", tastes[taste] },
+                    { "quantity", quantity }
+                };
+                tastes_list.Add(taste_document);
+                Console.WriteLine("Do you want to add another taste? (yes/no)");
+                answer = Console.ReadLine();
+            }
+
+            // ask what toppings to use
+            List<BsonDocument> toppings_list = new List<BsonDocument>();
+            answer = "yes";
+            
+            
+            
+            
+
+
+
+
+        }
 
 
         public static void createTables()
@@ -67,6 +176,28 @@ namespace BusinessLogic
                 Console.WriteLine("There are " + rdr[0] + " not completed sales");
             }
             rdr.Close();
+
+            // sql = "SELECT * FROM `ice_cream_store`.`sales` WHERE completed = 0;";
+
+            // MySqlCommand cmd2 = new MySqlCommand(sql, conn);
+            // MySqlDataReader rdr2 = cmd2.ExecuteReader();
+            // while (rdr2.Read())
+            // {
+            //     Console.WriteLine("sid: " + rdr2[0] + " rid: " + rdr2[1] + " dateTime : " + rdr2[2] + " completed :" + rdr2[3] + " paid: " + rdr2[4] + " total price : " + rdr[5]);
+            // }
+            // rdr2.Close();
+
+            // Console.WriteLine all the sales that are not completed
+
+            MySqlCommand cmd3 = new MySqlCommand("SELECT * FROM `ice_cream_store`.`sales` WHERE completed = 0;", conn);
+            MySqlDataReader rdr3 = cmd3.ExecuteReader();
+            while (rdr3.Read())
+            {
+                Console.WriteLine("sid: " + rdr3[0] + " rid: " + rdr3[1] + " dateTime : " + rdr3[2] + " completed :" + rdr3[3] + " paid: " + rdr3[4] + " total price : " + rdr3[5]);
+            }
+            rdr3.Close();
+
+
 
             conn.Close();
 
@@ -94,7 +225,7 @@ namespace BusinessLogic
             MySqlDataReader rdr = cmd.ExecuteReader();
             while (rdr.Read())
             {
-                maximum =  (long)rdr[2];
+                maximum = (long)rdr[2];
                 mostCommon = (string)rdr[0];
                 Console.WriteLine("The most common topping is " + rdr[0] + " with " + rdr[2] + " sales");
             }
@@ -128,9 +259,9 @@ namespace BusinessLogic
                 "left join `ice_cream_store`.tastes on tastes.tid = Tastes_Sales.tid " +
                 "group by Tastes_Sales.tid " +
                 "order by magnitude desc " +
-                "limit 1; " 
-                 
-                 
+                "limit 1; "
+
+
                 ;
             cmd = new MySqlCommand(sql, conn);
             rdr = cmd.ExecuteReader();
@@ -197,6 +328,8 @@ namespace BusinessLogic
 
 
         }
+
+
 
         public static void ReadOrder(int order_num)
         {
