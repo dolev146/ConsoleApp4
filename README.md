@@ -29,7 +29,11 @@ BL: Business Logic - Includes all the management logic of the business.
 
 ### DB schema
 
+
 // structur of the SQL 
+we followed this approache 
+https://stackoverflow.com/questions/66461298/add-multiple-products-in-one-order-with-the-same-client-id
+
 ![Untitled](https://user-images.githubusercontent.com/62290677/191808189-850e36c4-0b54-4eb1-bf31-ce0a089613e5.png)
 ```
 CREATE TABLE `Tastes` (
