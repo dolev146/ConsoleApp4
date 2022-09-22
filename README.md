@@ -1,7 +1,7 @@
 
 # Ice Cream Store DB
-- [@ Dolev Dublon](https://github.com/dolev146)
-- [@ Yakov Khodorkovski](https://github.com/yakov103)
+- [@ Dolev Dublon](https://github.com/dolev146) 207867342
+- [@ Yakov Khodorkovski](https://github.com/yakov103) 207045063
 
 ## how to run 
 1. Download the Visual Studio and .NET 6 library.
