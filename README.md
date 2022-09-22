@@ -30,7 +30,11 @@ BL: Business Logic - Includes all the management logic of the business.
 ### DB schema
 
 // structur of the SQL 
+![Untitled](https://user-images.githubusercontent.com/62290677/191808189-850e36c4-0b54-4eb1-bf31-ce0a089613e5.png)
 
 
 
 // stucute of the MongoDB 
+
+![jsoncrack com](https://user-images.githubusercontent.com/62290677/191808387-f38d18e9-9da5-4679-84bf-32a2915aeaa8.png)
+
