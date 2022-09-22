@@ -66,7 +66,7 @@ namespace BusinessEntities
     }
 
 
-    class Topping
+    public class Topping
     {
         string name;
         int id;
@@ -164,6 +164,11 @@ namespace BusinessEntities
         public string tasteName { get; set; }
         public int quantity { get; set; }
 
+        // get tasteName
+        public string getTasteName() { return tasteName; }
+        // get quantity
+        public int getQuantity() { return quantity; }
+
         public override string ToString()
         {
             return base.ToString() + "tasteName: " + tasteName + " , quantity: " + quantity;
@@ -189,19 +194,19 @@ namespace BusinessEntities
         int rid;
         string recepcleName;
         // hold a Receptcle type
-        Receptacle receptacle;
+        public Receptacle receptacle;
         // hold a list of objects that are "tasteName" : "quantity" Taste's and quantity of the taste
-        ArrayList tastesQuantityArray;
+        public List<TasteQuantity> tastesQuantityArray;
         // hold a list of toppings names
-        ArrayList toppings;
+        public ArrayList toppings;
 
-        DateTime dateTime;
+        public DateTime dateTime;
         bool completed;
         bool paid;
         int total_price;
 
 
-        public MongoSale(int rid, string recepcleName, DateTime dateTime, bool completed, bool paid, int total_price, ArrayList tastesQuantityArray, ArrayList toppings)
+        public MongoSale(int rid, string recepcleName, DateTime dateTime, bool completed, bool paid, int total_price, List<TasteQuantity> tastesQuantityArray, ArrayList toppings)
         {
             this.toppings = toppings;
             this.tastesQuantityArray = tastesQuantityArray;
@@ -213,8 +218,14 @@ namespace BusinessEntities
             this.total_price = total_price;
         }
 
+        // default constructor
+        public MongoSale()
+        {
+
+        }
+
         // set taste list
-        public void settastesQuantityArray(ArrayList tastesQuantityArray) { this.tastesQuantityArray = tastesQuantityArray; }
+        public void settastesQuantityArray(List<TasteQuantity> tastesQuantityArray) { this.tastesQuantityArray = tastesQuantityArray; }
         // set topping list
         public void setToppings(ArrayList toppings) { this.toppings = toppings; }
         // set receptacle
@@ -222,7 +233,7 @@ namespace BusinessEntities
         // get receptacle
         public Receptacle GetReceptacle() { return receptacle; }
         // get taste list
-        public ArrayList getTastesQuantityArray() { return tastesQuantityArray; }
+        public List<TasteQuantity> getTastesQuantityArray() { return tastesQuantityArray; }
         // get topping list
         public ArrayList getToppings() { return toppings; }
 
@@ -235,8 +246,95 @@ namespace BusinessEntities
             string formatForMySql = dateTime.ToString("yyyy-MM-dd HH:mm:ss");
             return formatForMySql;
         }
+
+        public void setCompleted(bool completed)
+        {
+            this.completed = completed;
+        }
+
+        public void setPaid(bool paid)
+        {
+            this.paid = paid;
+        }
+
+        public void setDate(DateTime dt)
+        {
+            this.dateTime = dt;
+        }
+
+        public void addTasteQuantity(TasteQuantity tq)
+        {
+            // add to tastesQuantityArray
+            tastesQuantityArray.Add(tq);
+        }
+
+        public void addTopping(Topping t)
+        {
+            // add to tastesQuantityArray
+            toppings.Add(t);
+        }
+
         public bool getCompleted() { return completed; }
         public bool getPaid() { return paid; }
+
+        public DateTime getDate(){
+            return dateTime;
+        }
+
+        public override string ToString()
+        {
+            string r = "id: " + id + " , rid: " + rid + " , recepcleName: " + recepcleName + " , dateTime: " + dateTime + " , completed: " + completed + " , paid: " + paid + " , total_price: " + total_price + " , tastesQuantityArray: " + tastesQuantityArray + " , toppings: " + toppings;
+            return r;
+        }
+
+        public void calculateTotalPrice(){
+            // if regualar cone then add is 0
+            // if special cone then add is 2
+            // if box then add is 5
+            int add = 0;
+            if (receptacle.getName().Equals("regular cone"))
+            {
+                add = 0;
+            }
+            else if (receptacle.getName().Equals("special cone"))
+            {
+                add = 2;
+            }
+            else if (receptacle.getName().Equals("box"))
+            {
+                add = 5;
+            }
+
+            // one ball of ice cream cost 7
+            // two balls of ice cream cost 12
+            // 3 balls of ice cream cost 18
+            // and for every ball after that add more 6
+            int iceCreamPrice = 0;
+            int iceCreamQuantity = 0;
+            foreach (TasteQuantity tq in tastesQuantityArray)
+            {
+                iceCreamQuantity += tq.quantity;
+            }
+            if (iceCreamQuantity == 1)
+            {
+                iceCreamPrice = 7;
+            }
+            else if (iceCreamQuantity == 2)
+            {
+                iceCreamPrice = 12;
+            }
+            else if (iceCreamQuantity == 3)
+            {
+                iceCreamPrice = 18;
+            }
+            else if (iceCreamQuantity > 3)
+            {
+                iceCreamPrice = 18 + ((iceCreamQuantity - 3) * 6);
+            }
+
+            this.total_price = iceCreamPrice + add;
+
+        }
 
     }
 }

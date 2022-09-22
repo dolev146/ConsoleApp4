@@ -47,7 +47,64 @@ namespace BusinessLogic
         public static string[] toppings_for_chocolate_mekupelet = { "maple_syrup", "color_sparkles", "black_sparkls", "tchina", "cherry_syrup" };
         public static string[] toppings_for_chocolate_mekupelet_vanila = { "color_sparkles", "black_sparkls", "tchina", "cherry_syrup" };
 
-        
+
+        public static void MongoEditOrder(string id)
+        {
+            // connect to mongo
+            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://arielUni:arielUni123@cluster0.ayzwu1i.mongodb.net/?retryWrites=true&w=majority");
+            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+            var client = new MongoClient(settings);
+            var database = client.GetDatabase("ice_cream_store_mongo");
+            IMongoCollection<MongoSale> collection = database.GetCollection<MongoSale>("sales");
+
+            // get the sale
+            var filter = Builders<MongoSale>.Filter.Eq("_id", ObjectId.Parse(id));
+            var sale = collection.Find(filter).FirstOrDefault();
+            // ask what you want to edit
+            Console.WriteLine("What do you want to edit?");
+            Console.WriteLine("1. Receptacle");
+            Console.WriteLine("2. Toppings");
+            Console.WriteLine("3. Tastes");
+
+            int choice = int.Parse(Console.ReadLine());
+            switch (choice)
+            {
+                case 1:
+                    Console.WriteLine("Choose a receptacle:");
+                    for (int i = 0; i < receptacles_name.Length; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {receptacles_name[i]}");
+                    }
+                    int receptacle = int.Parse(Console.ReadLine());
+                    sale.receptacle = new Receptacle(receptacles_name[receptacle - 1], receptacles_price[receptacle - 1]);
+                    break;
+                case 2:
+                    Console.WriteLine("Choose toppings:");
+                    for (int i = 0; i < toppings.Length; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {toppings[i]}");
+                    }
+                    int topping = int.Parse(Console.ReadLine());
+                    string topping_name = toppings[topping - 1];
+                    sale.toppings.Add(new Topping(topping_name));
+                    break;
+                case 3:
+                    Console.WriteLine("Choose tastes:");
+                    for (int i = 0; i < tastes.Length; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {tastes[i]}");
+                    }
+                    int taste = int.Parse(Console.ReadLine());
+                    // choose quantity
+                    Console.WriteLine("Choose quantity:");
+                    int quantity = int.Parse(Console.ReadLine());
+                    string taste_name = tastes[taste - 1];
+                    sale.tastesQuantityArray.Add(new TasteQuantity(taste_name, quantity));
+                    break;
+                default:
+                    break;
+            }
+        }
 
         public static void fill_Receptacles_to_mongo()
         {
@@ -106,11 +163,13 @@ namespace BusinessLogic
 
         public static void MongoMakeOrder()
         {
-            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://arielUni:arielUni123@cluster0.ayzwu1i.mongodb.net/?retryWrites=true&w=majority");
-            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
-            var client = new MongoClient(settings);
-            var database = client.GetDatabase("ice_cream_store_mongo");
-            var collection = database.GetCollection<BsonDocument>("sales");
+
+
+            MongoSale sale = new MongoSale();
+            sale.tastesQuantityArray = new List<TasteQuantity>(); ;
+            sale.toppings = new ArrayList();
+
+
 
             // ask what recepacle to use
             Console.WriteLine("Choose a recepacle: ");
@@ -120,8 +179,16 @@ namespace BusinessLogic
             }
             int recepacle = Convert.ToInt32(Console.ReadLine()) - 1;
 
+            // add the recepacle to the sale
+            sale.SetReceptacle(new Receptacle(receptacles_name[recepacle], receptacles_price[recepacle]));
+
+
+
+
             // make for loop to choose tastes and quantity Objects of each taste untill say done
             List<BsonDocument> tastes_list = new List<BsonDocument>();
+            // list of tates
+            List<Taste> tastes_list2 = new List<Taste>();
             string answer = "yes";
             while (answer == "yes")
             {
@@ -139,6 +206,10 @@ namespace BusinessLogic
                     { "quantity", quantity }
                 };
                 tastes_list.Add(taste_document);
+                // create a TasteQuantity object and add it to sale TasteQuantityarray
+                TasteQuantity tq = new TasteQuantity(tastes[taste], quantity);
+                sale.addTasteQuantity(tq);
+
                 Console.WriteLine("Do you want to add another taste? (yes/no)");
                 answer = Console.ReadLine();
             }
@@ -146,13 +217,105 @@ namespace BusinessLogic
             // ask what toppings to use
             List<BsonDocument> toppings_list = new List<BsonDocument>();
             answer = "yes";
-            
-            
-            
-            
+            // if we have a box we can use 3 topping else 1
+            int toppings_limit = 1;
+            if (recepacle == 2)
+            {
+                toppings_limit = 3;
+            }
+            while (answer == "yes" && toppings_list.Count < toppings_limit)
+            {
+                Console.WriteLine("Choose a topping: ");
+                for (int i = 0; i < toppings.Length; i++)
+                {
+                    Console.WriteLine(i + 1 + ". " + toppings[i]);
+                }
+                int topping = Convert.ToInt32(Console.ReadLine()) - 1;
+
+                // add topping to sale
+                Topping t = new Topping(toppings[topping]);
+                t.setID(topping);
+                sale.addTopping(t);
+
+                BsonDocument topping_document = new BsonDocument
+                {
+                    { "name", toppings[topping] }
+                };
+                toppings_list.Add(topping_document);
+                Console.WriteLine("Do you want to add another topping? (yes/no)");
+                answer = Console.ReadLine();
+            }
+
+
+            // ask if want to pay
+            Console.WriteLine("do you want to pay? , (yes/no) ");
+            answer = Console.ReadLine();
+            if (answer == "yes")
+            {
+                sale.setPaid(true);
+            }
+            else
+            {
+                sale.setPaid(false);
+            }
+
+            // ask for completed 
+            Console.WriteLine("do you want to complete the sale? , (yes/no) ");
+            answer = Console.ReadLine();
+            if (answer == "yes")
+            {
+                sale.setCompleted(true);
+            }
+            else
+            {
+                sale.setCompleted(false);
+            }
+            // set the date
+            sale.setDate(DateTime.Now);
+
+            // calculate the total price
+            sale.calculateTotalPrice();
 
 
 
+            // now just add the sale to sales in mongodb
+            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://arielUni:arielUni123@cluster0.ayzwu1i.mongodb.net/?retryWrites=true&w=majority");
+            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+            var client = new MongoClient(settings);
+            var database = client.GetDatabase("ice_cream_store_mongo");
+            var collection = database.GetCollection<BsonDocument>("sales");
+            var array = new ArrayList();
+            foreach (var item in sale.tastesQuantityArray)
+            {
+                // add the taste and quantity to the array
+                array.Add("{" + "\"" + item.getTasteName() + "\"" + ":" + "\"" + item.getQuantity() + "\"" + "}");
+            }
+
+            BsonDocument bsonSale = new BsonDocument
+            {
+                { "receptacle", sale.receptacle.getName() },
+                // sale quantity array
+                {"tastes_quantity", new BsonArray(tastes_list)},
+                { "toppings", new BsonArray(toppings_list) },
+                { "paid", sale.getPaid() },
+                { "completed", sale.getCompleted() },
+                { "date", sale.getDate() },
+                { "price", sale.getTotalPrice() }
+            };
+            try
+            {
+                collection.InsertOne(bsonSale);
+            }
+            catch (Exception e)
+            {
+                // trim the error message to 50 characters
+                string error = e.Message;
+                if (error.Length > 50)
+                {
+                    error = error.Substring(0, 50);
+                }
+                Console.WriteLine("Error: " + error);
+            }
 
         }
 

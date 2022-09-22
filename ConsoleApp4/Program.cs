@@ -52,7 +52,7 @@ if (userChoice == "mongo")
         {
             case 1:
                 // before filling check if the collection is empty
-                if (MongoAccess.MongoAccess.getAllSales().Count == 0)
+                if (MongoAccess.MongoAccess.checkIfCollectionIsEmpty())
                 {
                     // fill the collection with data
                     Console.WriteLine("fill mongo with data");
@@ -67,12 +67,8 @@ if (userChoice == "mongo")
                 Console.WriteLine("Get all the sales");
                 Console.WriteLine("_____________________");
                 // get all the sales from mongo
-                List<MongoSale> sales = MongoAccess.MongoAccess.getAllSales();
-                // print all the sales
-                foreach (MongoSale sale1 in sales)
-                {
-                    Console.WriteLine(sale1.ToString());
-                }
+                MongoAccess.MongoAccess.getAllSales();
+
                 break;
             case 3:
                 // get all the details of a specific sale
@@ -83,20 +79,46 @@ if (userChoice == "mongo")
                 Console.WriteLine("Please enter the id of the sale");
                 string id = Console.ReadLine();
                 // get the sale from mongo
-                // MongoSale sale = MongoAccess.MongoAccess.getSale(id);
-                // print the sale
-                // Console.WriteLine(sale.ToString());
+                MongoAccess.MongoAccess.getSale(id);
                 break;
             case 4:
                 // make a sale
                 Console.WriteLine("_____________________");
                 Console.WriteLine("Make a sale");
                 Console.WriteLine("_____________________");
-                
-
-
-                // print the sale
-                // Console.WriteLine(sale.ToString());
+                Logic.MongoMakeOrder();
+                break;
+            case 5:
+                // get all the sales of a specific date and the report of the day
+                Console.WriteLine("_____________________");
+                Console.WriteLine("Get all the sales of a specific date and the report of the day");
+                Console.WriteLine("_____________________");
+                // get the date
+                Console.WriteLine("Please enter the date");
+                string date = Console.ReadLine();
+                // get the sales from mongo
+                MongoAccess.MongoAccess.getSalesOfSpecificDate(date);
+                break;
+            case 6:
+                // show not completed sales
+                Console.WriteLine("_____________________");
+                Console.WriteLine("Show not completed sales");
+                Console.WriteLine("_____________________");
+                // get the sales from mongo
+                MongoAccess.MongoAccess.getNotCompletedSales();
+                break;
+            case 7:
+                // edit sale
+                Console.WriteLine("_____________________");
+                Console.WriteLine("Edit sale");
+                Console.WriteLine("_____________________");
+                // get the id of the sale
+                Console.WriteLine("Please enter the id of the sale");
+                string idEdit = Console.ReadLine();
+                // get the sale from mongo
+                MongoAccess.MongoAccess.getSale(idEdit);
+                // edit the sale
+                Logic.MongoEditOrder(idEdit);
                 break;
 
 
