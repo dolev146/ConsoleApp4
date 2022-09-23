@@ -37,39 +37,39 @@ watch the video for full explenation
 
 
 
-## about code 
-### data structure 
+### data structure of the database
 The program is divided to layers as we learned in the class 
 
 DAL: Database Layer - Includes all the integration between the server and database. 
-    In this layer we have the following classes:
-    - MongoAccess - includes all the methods that connect to mongoDB and do the CRUD operations
-    - SQLAccess - includes all the methods that connect to SQL server and do the CRUD operations
-    - DataAccess - includes all the methods that connect to the database and do the CRUD operations
+
+In this layer we have the following classes:
+- MongoAccess - includes all the methods that connect to mongoDB and do the CRUD operations
+- SQLAccess - includes all the methods that connect to SQL server and do the CRUD operations
+- DataAccess - includes all the methods that connect to the database and do the CRUD operations
 
 BEL: Business Entity Layer - Includes all the entities and classes for data manipulation.
-    In this layer we have the following classes:
-    - Tastes - includes all the properties of the taste entity
-    - Toppings - includes all the properties of the toppings entity
-    - Receptacles - includes all the properties of the receptacles entity
-    - Sales - includes all the properties of the sales entity
-    - Tastes_Sales - includes all the properties of the tastes_sales entity
-    - Toppings_Sales - includes all the properties of the toppings_sales entity
-    - MongoAccess - includes all the methods that connect to mongoDB and do the CRUD operations
-    - SQLAccess - includes all the methods that connect to SQL server and do the CRUD operations
-    - DataAccess - includes all the methods that connect to the database and do the CRUD operations
+In this layer we have the following classes:
+- Tastes - includes all the properties of the taste entity
+- Toppings - includes all the properties of the toppings entity
+- Receptacles - includes all the properties of the receptacles entity
+- Sales - includes all the properties of the sales entity
+- Tastes_Sales - includes all the properties of the tastes_sales entity
+- Toppings_Sales - includes all the properties of the toppings_sales entity
+- MongoAccess - includes all the methods that connect to mongoDB and do the CRUD operations
+- SQLAccess - includes all the methods that connect to SQL server and do the CRUD operations
+- DataAccess - includes all the methods that connect to the database and do the CRUD operations
 
 BLL: Business Logic Layer - Includes all the management logic of the business. 
-    In this layer we have the following classes:
-    - MongoMakeOrder - includes all the methods that make a sale in mongoDB
-    - MongoEditOrder - includes all the methods that edit a sale in mongoDB
-    - Logic - includes all the methods that make a sale in SQL server
-    - Logic - includes all the methods that edit a sale in SQL server
-    - Logic - includes all the methods that delete a sale in SQL server
-    - Logic - includes all the methods that read a sale in SQL server
-    - Logic - includes all the methods that get the day report in SQL server
-    - Logic - includes all the methods that get the not completed sales in SQL server
-    - Logic - includes all the methods that get the most common ingredient in SQL server
+In this layer we have the following classes:
+- MongoMakeOrder - includes all the methods that make a sale in mongoDB
+- MongoEditOrder - includes all the methods that edit a sale in mongoDB
+- Logic - includes all the methods that make a sale in SQL server
+- Logic - includes all the methods that edit a sale in SQL server
+- Logic - includes all the methods that delete a sale in SQL server
+- Logic - includes all the methods that read a sale in SQL server
+- Logic - includes all the methods that get the day report in SQL server
+- Logic - includes all the methods that get the not completed sales in SQL server
+- Logic - includes all the methods that get the most common ingredient in SQL server
 
 
 ### DB schema
