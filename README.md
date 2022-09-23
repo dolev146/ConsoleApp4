@@ -3,6 +3,13 @@ https://github.com/dolev146/ConsoleApp4
 - [@ Dolev Dublon](https://github.com/dolev146) 207867342
 - [@ Yakov Khodorkovski](https://github.com/yakov103) 207045063
 
+erd = entity relationship diagram
+
+![מצגת1_page-0001](https://user-images.githubusercontent.com/62290677/191915019-0e55ae31-68bd-451a-be86-db7c4b46254e.jpg)
+
+
+
+
 ## how to run 
 1. Download the Visual Studio and .NET 6 library.
 2. clone the repository through Visual Studio 
