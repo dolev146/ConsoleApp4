@@ -3,6 +3,13 @@ https://github.com/dolev146/ConsoleApp4
 - [@ Dolev Dublon](https://github.com/dolev146) 207867342
 - [@ Yakov Khodorkovski](https://github.com/yakov103) 207045063
 
+erd = entity relationship diagram
+
+![מצגת1_page-0001](https://user-images.githubusercontent.com/62290677/191915019-0e55ae31-68bd-451a-be86-db7c4b46254e.jpg)
+
+
+
+
 ## how to run 
 1. Download the Visual Studio and .NET 6 library.
 2. clone the repository through Visual Studio 
@@ -14,6 +21,19 @@ Navigate the menu with numbers :
 // **** photo of the menu **** // 
 
 Choose the wanted DB platform . 
+![image](https://user-images.githubusercontent.com/62290677/191916109-cf5499c2-d4cd-44f2-a6ea-8fa9240354f3.png)
+
+then choose the number of request you would like to make
+
+
+1
+will create empty tables
+![image](https://user-images.githubusercontent.com/62290677/191919059-56bf9175-1367-4474-b622-df34bc1aec58.png)
+
+![image](https://user-images.githubusercontent.com/62290677/191919012-24bbaadc-1436-408a-b021-3b434f3d3d3e.png)
+watch the video for full explenation
+
+
 
 
 ## about code 
@@ -29,7 +49,11 @@ BL: Business Logic - Includes all the management logic of the business.
 
 ### DB schema
 
+
 // structur of the SQL 
+we followed this approache 
+https://stackoverflow.com/questions/66461298/add-multiple-products-in-one-order-with-the-same-client-id
+
 ![Untitled](https://user-images.githubusercontent.com/62290677/191808189-850e36c4-0b54-4eb1-bf31-ce0a089613e5.png)
 ```
 CREATE TABLE `Tastes` (
@@ -131,3 +155,13 @@ ALTER TABLE `Toppings_Sales` ADD FOREIGN KEY (`topid`) REFERENCES `Toppings` (`t
   ]
 }
 ```
+
+
+more pictures
+
+![image](https://user-images.githubusercontent.com/62290677/191848821-497044b8-8020-4f6a-8086-7fdf06ce9c72.png)
+![image](https://user-images.githubusercontent.com/62290677/191848896-43f7e586-e0e9-4c27-b926-8426d3d9730f.png)
+![image](https://user-images.githubusercontent.com/62290677/191848950-02d81855-7236-45b8-8cbb-01a013ce65d0.png)
+![image](https://user-images.githubusercontent.com/62290677/191849012-2f29a2d2-7ef8-4e12-9b55-ca81e30703f4.png)
+
+
