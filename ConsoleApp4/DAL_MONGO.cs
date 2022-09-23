@@ -112,18 +112,25 @@ namespace MongoAccess
             var client = new MongoClient(settings);
             var database = client.GetDatabase("ice_cream_store_mongo");
             var collection = database.GetCollection<BsonDocument>("sales");
-            // search for the sale with the specified _id
-            var filter = Builders<BsonDocument>.Filter.Eq("id", id);
-            // print the sale
+            // find sale by id
             try
             {
-                var sale = collection.Find(filter).FirstOrDefault();
-                Console.WriteLine(sale);
+                var sales = collection.Find(new BsonDocument()).ToList();
+                // print all the sales
+                foreach (var sale in sales)
+                {
+                    if (sale["_id"].ToString() == id)
+                    {
+                        Console.WriteLine(sale);
+                    }
+                }
             }
-            catch (System.Exception e)
+            catch (System.Exception)
             {
-                Console.WriteLine("Sale not found");
+                Console.WriteLine("No sales found");
             }
+
+
         }
 
         public static bool checkIfCollectionIsEmpty()
@@ -206,6 +213,7 @@ namespace MongoAccess
                 foreach (var sale in sales)
                 {
                     Console.WriteLine(sale);
+                    Console.WriteLine(""); 
                 }
             }
             catch (System.Exception)

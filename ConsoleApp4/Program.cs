@@ -46,7 +46,7 @@ if (userChoice == "mongo")
         Console.WriteLine("10. Get the most common ingredient");
         // exit
         Console.WriteLine("(-1)  Exit");
-
+        
         userInput = Convert.ToInt32(Console.ReadLine());
 
         switch (userInput)
@@ -95,10 +95,24 @@ if (userChoice == "mongo")
                 Console.WriteLine("Get all the sales of a specific date and the report of the day");
                 Console.WriteLine("_____________________");
                 // get the date
-                Console.WriteLine("Please enter the date");
+                Console.WriteLine("Please enter the date yyyy-mm-dd");
                 string date = Console.ReadLine();
+                // if date is today 
+                if (date == DateTime.Now.ToString("yyyy-MM-dd"))
+                {
+                    // get the sales of today
+                  MongoAccess.MongoAccess.getAllSales();
+                }
+                else
+                {
+                    Console.WriteLine("not found"); 
+                }
+          
+              
+
+
                 // get the sales from mongo
-                MongoAccess.MongoAccess.getSalesOfSpecificDate(date);
+               // MongoAccess.MongoAccess.getSalesOfSpecificDate(date);
                 break;
             case 6:
                 // show not completed sales
