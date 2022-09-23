@@ -158,6 +158,7 @@ ALTER TABLE `Toppings_Sales` ADD FOREIGN KEY (`topid`) REFERENCES `Toppings` (`t
   ]
 }
 ```
+https://jsoncrack.com/editor?json=%5B%5B%22Sales%22%2C%22a%7C0%22%2C%22_id%22%2C%22completed%22%2C%22paid%22%2C%22total_price%22%2C%22Recepticle%22%2C%22Taste_quantity%22%2C%22Toppings%22%2C%22dateTime%22%2C%22a%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%22%2C%22string%22%2C%22bool%22%2C%22int%22%2C%22name%22%2C%22quantity%22%2C%22a%7CE%7CF%22%2C%22o%7CG%7CB%7CD%22%2C%22a%7CH%7CH%22%2C%22price%22%2C%22a%7CE%7CJ%22%2C%22toppingName%22%2C%22o%7CK%7CL%7CD%22%2C%22a%7CM%7CM%22%2C%22o%7CA%7CB%7CC%7CC%7CD%7CB%7CI%7CN%7C9%22%2C%22a%7CO%22%2C%22o%7C1%7CP%22%5D%2C%22Q%22%5D
 
 
 more pictures
