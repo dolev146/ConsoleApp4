@@ -21,6 +21,19 @@ Navigate the menu with numbers :
 // **** photo of the menu **** // 
 
 Choose the wanted DB platform . 
+![image](https://user-images.githubusercontent.com/62290677/191916109-cf5499c2-d4cd-44f2-a6ea-8fa9240354f3.png)
+
+then choose the number of request you would like to make
+
+
+1
+will create empty tables
+![image](https://user-images.githubusercontent.com/62290677/191919059-56bf9175-1367-4474-b622-df34bc1aec58.png)
+
+![image](https://user-images.githubusercontent.com/62290677/191919012-24bbaadc-1436-408a-b021-3b434f3d3d3e.png)
+watch the video for full explenation
+
+
 
 
 ## about code 
