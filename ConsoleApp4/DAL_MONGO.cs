@@ -57,11 +57,6 @@ namespace MongoAccess
             }
             // print the most common tasteName
             Console.WriteLine("The most common taste is: " + mostCommonTasteName + " with " + mostCommonTasteQuantity + " quantity");
-
-
-
-
-
         }
         public static void deleteSale(string _id)
         {
@@ -69,8 +64,8 @@ namespace MongoAccess
             settings.ServerApi = new ServerApi(ServerApiVersion.V1);
             var client = new MongoClient(settings);
             var database = client.GetDatabase("ice_cream_store_mongo");
-            IMongoCollection<MongoSale> collection = database.GetCollection<MongoSale>("sales");
-            var filter = Builders<MongoSale>.Filter.Eq("_id", _id);
+            var collection = database.GetCollection<BsonDocument>("sales");
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
             collection.DeleteOne(filter);
         }
         public static void getNotCompletedSales()
@@ -96,10 +91,10 @@ namespace MongoAccess
             settings.ServerApi = new ServerApi(ServerApiVersion.V1);
             var client = new MongoClient(settings);
             var database = client.GetDatabase("ice_cream_store_mongo");
-            IMongoCollection<MongoSale> collection = database.GetCollection<MongoSale>("sales");
+            var collection = database.GetCollection<BsonDocument>("sales");
 
             // get all sales of specific date
-            var filter = Builders<MongoSale>.Filter.Eq("dateTime", date);
+            var filter = Builders<BsonDocument>.Filter.Eq("dateTime", date);
             var sales = collection.Find(filter).ToList();
             foreach (var doc in sales)
             {
@@ -116,9 +111,9 @@ namespace MongoAccess
             settings.ServerApi = new ServerApi(ServerApiVersion.V1);
             var client = new MongoClient(settings);
             var database = client.GetDatabase("ice_cream_store_mongo");
-            IMongoCollection<MongoSale> collection = database.GetCollection<MongoSale>("sales");
+            var collection = database.GetCollection<BsonDocument>("sales");
             // search for the sale with the specified _id
-            var filter = Builders<MongoSale>.Filter.Eq("_id", id);
+            var filter = Builders<BsonDocument>.Filter.Eq("id", id);
             // print the sale
             try
             {
@@ -202,13 +197,13 @@ namespace MongoAccess
             settings.ServerApi = new ServerApi(ServerApiVersion.V1);
             var client = new MongoClient(settings);
             var database = client.GetDatabase("ice_cream_store_mongo");
-            IMongoCollection<MongoSale> collection = database.GetCollection<MongoSale>("sales");
+            var collection = database.GetCollection<BsonDocument>("sales");
             // convert the collection to a list of MongoSale
             try
             {
-                List<MongoSale> sales = collection.Find(new BsonDocument()).ToList();
+                var sales = collection.Find(new BsonDocument()).ToList();
                 // print all the sales
-                foreach (MongoSale sale in sales)
+                foreach (var sale in sales)
                 {
                     Console.WriteLine(sale);
                 }

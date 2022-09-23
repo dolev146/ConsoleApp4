@@ -16,7 +16,8 @@ using MongoAccess;
 Console.WriteLine("The current time is " + DateTime.Now);
 
 // let user input choose between mongo and sql
-Console.WriteLine("Please choose between mongo and sql");
+Console.WriteLine("Please choose between mongo and sql "
++"(write mongo for mongo sql for mysql");
 string userChoice = Console.ReadLine();
 
 // if user chose mongo
@@ -159,9 +160,7 @@ if (userChoice == "mongo")
 
 
     } while (userInput != -1);
-}
-
-// if user chose sql
+}// if user chose sql 
 else if (userChoice == "sql")
 {
     int userInput = 0;

@@ -68,7 +68,10 @@ namespace BusinessEntities
 
     public class Topping
     {
+        [BsonElement("name")]
         string name;
+        // add referance to bson id
+        [BsonId]
         int id;
 
         public Topping(string name)
@@ -88,8 +91,11 @@ namespace BusinessEntities
 
     public class Receptacle
     {
+        [BsonId]
         int id;
+        [BsonElement("name")]
         string name;
+        [BsonElement("price")]
         int price;
 
         public Receptacle(string name, int price)
