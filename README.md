@@ -10,6 +10,7 @@ erd = entity relationship diagram
 
 
 
+
 ## how to run 
 1. Download the Visual Studio and .NET 6 library.
 2. clone the repository through Visual Studio 
@@ -53,6 +54,8 @@ BL: Business Logic - Includes all the management logic of the business.
 // structur of the SQL 
 we followed this approache 
 https://stackoverflow.com/questions/66461298/add-multiple-products-in-one-order-with-the-same-client-id
+
+https://dbdiagram.io/d/6320648a0911f91ba59b015f
 
 ![Untitled](https://user-images.githubusercontent.com/62290677/191808189-850e36c4-0b54-4eb1-bf31-ce0a089613e5.png)
 ```
